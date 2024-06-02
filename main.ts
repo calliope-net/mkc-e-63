@@ -1,9 +1,9 @@
 radio.onReceivedData(function (receivedData) {
     if (radio.isBetriebsart(receivedData, radio.e0Betriebsart.p0)) {
-        mkc.servo_set16(radio.getByte(receivedData, radio.eBufferPointer.p0, radio.eBufferOffset.b1_Servo))
+        mkc.servo_set16(radio.getByte(receivedData, radio.eBufferPointer.m0, radio.eBufferOffset.b1_Servo))
         mkc.motorPower(radio.getaktiviert(receivedData, radio.e3aktiviert.m0) || radio.getaktiviert(receivedData, radio.e3aktiviert.m1))
-        mkc.motor255(Motor.M0, radio.getByte(receivedData, radio.eBufferPointer.p0, radio.eBufferOffset.b0_Motor))
-        mkc.motor255(Motor.M1, radio.getByte(receivedData, radio.eBufferPointer.p1, radio.eBufferOffset.b0_Motor))
+        mkc.motor255(Motor.M0, radio.getByte(receivedData, radio.eBufferPointer.m0, radio.eBufferOffset.b0_Motor))
+        mkc.motor255(Motor.M1, radio.getByte(receivedData, radio.eBufferPointer.m1, radio.eBufferOffset.b0_Motor))
         mkc.rgbLEDon(mkc.eRGBled.a, 0xff0000, radio.getaktiviert(receivedData, radio.e3aktiviert.m0))
         mkc.buzzer(radio.getSchalter(receivedData, radio.e0Schalter.b0))
         mkc.rgbLEDs(mkc.eRGBled.b, 0x00ff00, true)
