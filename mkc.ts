@@ -75,30 +75,27 @@ namespace mkc { // mkc.ts
     //% block="Motor %motor (1 ↓ 128 ↑ 255) %speed (128 ist STOP)" weight=4
     //% speed.min=0 speed.max=255 speed.defl=128
     export function motor255(motor: Motor, speed: number) { // sendet nur an MotorChip, wenn der Wert sich ändert
-        if (n_MotorPower) {
-            if (between(speed, 1, 255)) {
-                //let duty_percent = (speed == c_MotorStop ? 0 : Math.map(speed, 1, 255, -100, 100))
-                let duty_percent = Math.round(Math.map(speed, 1, 255, -100, 100))
+        //  if (n_MotorPower) {
+        if (n_MotorPower && between(speed, 1, 255)) {
+            //let duty_percent = (speed == c_MotorStop ? 0 : Math.map(speed, 1, 255, -100, 100))
+            let duty_percent = Math.round(Math.map(speed, 1, 255, -100, 100))
 
-                if (motor == Motor.M0 && speed != n_Motor0) {
-                    n_Motor0 = speed
-                    motors.dualMotorPower(motor, duty_percent)
-                }
-                else if (motor == Motor.M1 && speed != n_Motor1) {
-                    n_Motor1 = speed
-                    motors.dualMotorPower(motor, duty_percent)
-                }
-                else if (motor == Motor.M0_M1 && (speed != n_Motor0 || speed != n_Motor1)) {
-                    n_Motor0 = speed
-                    n_Motor1 = speed
-                    motors.dualMotorPower(motor, duty_percent)
-                }
-
-                // pins.i2cWriteBuffer(i2cMotor, Buffer.fromArray([MA_DRIVE, n_MotorA]))
+            if (motor == Motor.M0 && speed != n_Motor0) {
+                n_Motor0 = speed
+                motors.dualMotorPower(motor, duty_percent)
             }
+            else if (motor == Motor.M1 && speed != n_Motor1) {
+                n_Motor1 = speed
+                motors.dualMotorPower(motor, duty_percent)
+            }
+            else if (motor == Motor.M0_M1 && (speed != n_Motor0 || speed != n_Motor1)) {
+                n_Motor0 = speed
+                n_Motor1 = speed
+                motors.dualMotorPower(motor, duty_percent)
+            }
+        } else {
+            motors.dualMotorPower(motor, 0)
         }
-        //else if (speed == c_MotorStop)
-        //    n_MotorChipReady = true
     }
 
 
@@ -160,6 +157,14 @@ namespace mkc { // mkc.ts
         return (i0 >= i1 && i0 <= i2)
     }
 
+
+    //% group="Logik" advanced=true
+    //% block="map int32 %value|from low %fromLow|high %fromHigh|to low %toLow|high %toHigh"
+    //% inlineInputMode=inline
+    export function map(value: number, fromLow: number, fromHigh: number, toLow: number, toHigh: number): number {
+        //return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
+        return Math.idiv(Math.imul(value - fromLow, toHigh - toLow), (fromHigh - fromLow) + toLow)
+    }
 
     // ========== group="Text" advanced=true
 
