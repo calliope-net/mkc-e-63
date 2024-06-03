@@ -149,28 +149,21 @@ namespace mkc { // mkc.ts
 
     // ========== advanced=true ==========
 
-    // ========== group="Logik" advanced=true
+    // ========== group="Kommentar" advanced=true
 
-    //% group="Logik" advanced=true
+    //% group="Kommentar" advanced=true
+    //% block="// %text" weight=9
+    export function comment(text: string): void { }
+
+
+
+    // ========== group="Funktionen" advanced=true
+
+    //% group="Funktionen" advanced=true
     //% block="%i0 zwischen %i1 und %i2" weight=1
     export function between(i0: number, i1: number, i2: number): boolean {
         return (i0 >= i1 && i0 <= i2)
     }
-
-
-    //% group="Logik" advanced=true
-    //% block="map int32 %value|from low %fromLow|high %fromHigh|to low %toLow|high %toHigh"
-    //% inlineInputMode=inline
-    export function map(value: number, fromLow: number, fromHigh: number, toLow: number, toHigh: number): number {
-        //return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
-        return Math.idiv(Math.imul(value - fromLow, toHigh - toLow), (fromHigh - fromLow) + toLow)
-    }
-
-    // ========== group="Text" advanced=true
-
-    //% group="Text" advanced=true
-    //% block="// %text" weight=9
-    export function comment(text: string): void { }
 
 
 } // mkc.ts
